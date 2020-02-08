@@ -1,0 +1,114 @@
+Control Flow
+
+1. Statements and Blocks
+- expression กลายเป็น statement เมื่อถูกปิดท้ายด้วยเครื่องหมาย semi-colon ;
+- เครื่องหมายปีกกา {} ใช้รวมส่วนของ declarations และ statements เข้าด้วยกันเป็น Blocks
+- ฟังก์ชัน, if, else, while, for ใช้ block ในการรวม statement หลายอันเข้าด้วยกัน
+- Null statement คือ statement ที่ปราศจากส่วนของ expression เหลือเพียงเครื่องหมาย semi-colon ; เท่านั้น
+
+2. if-Else 
+- ต.ย. (else นี้จะคู่กับ if ที่อยู่ใกล้สุด)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if (n > 0)
+if (a > b)
+   z = a;
+else
+   z = b;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+3. Else-if
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if (expression1)
+   statement1
+else if (expression2)
+   statement2
+else if (expression3)
+   statement3
+else if (expression4)
+   statement4
+else
+   statement5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- ถ้า expression ตัวไหนมีค่าเป็นจริง statement ที่เกี่ยวข้องจะถูกทำงาน
+
+4. Switch 
+- ใช้ตรวจสอบเงื่อนไขในลักษณะที่ดูว่าค่าของ expression นั้น match เข้ากับค่าคงที่ หลังจากนั้นโปรแกรมจะกระโดดมาทำงาน statement ภายใต้ค่าคงที่นั้นลงมาเรื่อยๆ จนกว่าจะเจอ break แล้วจึงหลุดจาก switch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+switch (expression) {
+   case const-expr:
+statements
+   case const-expr:
+statements
+   default:
+statements
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+switch (expr) {
+    case 1: statement1;
+            statement2;
+    case 2: statement3;
+            statement4;
+    case 3: statement5;
+            break;
+    case 3+1: value ^= operand;
+            break;
+    case '0': statement51;
+            break;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- ถ้า case 'a':
+     case 'a': ซ้ำไม่ได้
+- ถ้า case '': ไม่ได้เพราะไม่มีอักขระ
+- ถ้า case '0': = 48 
+- default เป็น optional จะมีหรือไม่มีก็ได้ ถ้ามี คำสั่ง statements ที่อยู่ภายใต้ default ถูกทำงานเมื่อค่าของ expression ไม่ match กับ case ใดเลย
+
+5. Loops - While และ for
+- รูปแบบของ while 
+~~~~~~~~~~~~~~~~~~~~
+while (expression)
+   statement
+~~~~~~~~~~~~~~~~~~~~
+- ถ้า expression เป็นจริง statement จะถูกทำงาน และถูกวนทำงานจนกว่า expression จะเป็นเท็จ
+
+- รูปแบบของ for 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+for (expr1; expr2; expr3)
+   statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+มีลักษณะเดียวกับ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+expr1;
+while (expr2) {
+    statement
+    expr3; //ส่วนใหญ่คำสั่งในการเพิ่มค่า
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- expr1 และ expr3 กำหนดค่าหรือเรียกใช้ฟังก์ชัน ส่วน expr2 มักเป็นการเปรียบเทียบค่า
+- expr1, expr2, expr3 สามารถถูกละได้ แต่ต้องคงเครื่องหมาย ; ไว้
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+for (;;) {
+    printf("hello\n");
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ลูปข้างบนมีลักษณะเป็น "infinite" loop โดยจะพิมพ์คำว่า hello อย่างไม่สิ้นสุด
+
+6. Loops - Do-While
+- do-while แตกต่างจาก while และ for การทดสอบเงื่อนไขจะอยู่ด้านล่างของลูป 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+do
+statement
+while (expression);
+
+ส่วนใหญ่มักเห็นในรูปนี้
+
+do {
+statement
+} while (expression);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- statement จะถูกทำงาน แล้ว expression จึงถูกหาค่าว่าเป็นจริงหรือเท็จ ถ้ามีค่าเป็นจริง statement จะถูกทำงานอีก แล้ว expression จึงถูกหาค่าอีก วนทำซ้ำเรื่อยๆ จนกว่า expression เป็นเท็จ
+
+7. Break และ Continue
+- สามารถควบคุมการวนซ้ำได้มากขึ้น
+- break หลุดออกจากลูป for, while, do-while โดยทันที การหลุดออกจากลูปจะทำจากลูปวงในสุดที่ break อยู๋
+- continue บังคับการทำงานของลูปให้เกิดการวนซ้ำขึ้นมาใหม่ while กับ do-while การทำงานจะกระโดดไปที่การตรวจสอบเงื่อนไข (expression) ส่วนกรณี for นั้น การทำงานจะกระโดดไปที่ expr3 แล้วถึงไปตรวจสอบเงื่อนไข (expr2)
