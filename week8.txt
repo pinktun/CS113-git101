@@ -1,0 +1,89 @@
+Linked Lists
+
+1. Linked List 
+    - Linked list เป็นโครงสร้างข้อมูลที่ถูกออกแบบใช้เก็บข้อมูล โดยข้อมูลแต่ละตัวจะเชื่อมต่อกันเป็นสาย ผู้ใช้สามารถเข้าถึงแต่ละตัวได้
+    - Array เป็นโครงสร้างข้อมูลที่ลักษณะข้อมูลแต่ละตัวเรียงต่อกัน แต่ทั้ง array และ linked list มีโครงสร้างและการจัดการในการเก็บข้อมูลไม่ค่อยเหมือนกัน
+2. เกี่ยวกับ structure
+    - กำหนดรูปแบบหรือโครงสร้างข้อมูลที่รวบรวมตัวแปร ที่เก็บข้อมูลหลายเรื่องที่สัมพันธ์กัน อาจมีประเภทข้อมูลต่างกันด้วย
+    2.1 การประกาศตัวแปรประเภท structure
+        - ประกาศตัวแปรที่มีโครงสร้าง structure ได้ดังนี้
+            struct student std;
+        - การเข้าถึงสมาชิกแต่ละฟิลด์ของ structure โดยใช้ dot operator ใช้เครื่องหมาย . 
+            ต.ย. printf("%s\n", std.name);
+                 std.age = 21;
+    2.2 ตัวแปร pointer ไปยัง structure
+        - การเข้าถึงสมาชิกแต่ละฟิล์ดผ่านตัวแปร pointer ทำได้ดังนี้
+            struct student std, *p_std;
+
+            p_std = &std;
+            printf("%s\n", (*p_std).name);
+            (*p_std).age = 21;
+        - นอกจากเข้าถึงฟิล์ดผ่าน . แล้ว สามารถใช้ -> (arrow operator) ได้
+    2.4 การใช้ typedef
+        - ตัวอย่างการใช้งาน 
+            typedef unsigned long int ulint;
+        - struct สามารถกำหนด struct student ให้กลายเป็นประเภทข้อมูลใหม่ที่ใช้เพียง 1 คำแทนประเภทข้อมูลได้
+            typedef struct student { // สามารถละชื่อ student ได้
+        char id[12];
+        char name[40];
+        int age;
+        } Student; // ใช้คำว่า student เป็นประเภทข้อมูลได้
+    2.5 Self-Referential Structures
+        - สร้างขึ้นมาด้วยการใช้ struct และภายใน struct นี้จะมีฟิลด์ที่เป็น pointer อ้างอิงกลับไปที่ struct อีก 
+        ตัวอย่าง 
+            struct node {
+            int data;
+            struct node *next;
+            };
+        - "node" ออกแบบมาเพื่อเก็บข้อมูล 1 หน่วย
+
+3. ตัวอย่าง linked list ที่มีข้อมูล
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *next;
+}; 
+
+int main()
+{   struct node *head = NULL;
+    struct node *first = NULL;
+    struct node *second = NULL;
+    struct node *third = NULL;
+
+    // Allocate 3 nodes in the heap
+    first = (struct node *)malloc(sizeof(struct node));
+    second = (struct node *)malloc(sizeof(struct node));
+    third = (struct node *)malloc(sizeof(struct node));
+
+    head = first;
+    first->data = 17;
+    first->next = second;
+
+    second->data = 29;
+    second->next = third;
+
+    third->data = 93;
+    third->next = NULL;
+}
+
+4. การเข้าถึงข้อมูลแต่่ละตัวใน linked list (Traversal)
+    - ปรับโค้ดก่นอหน้าโดยให้มีฟังก์ชันที่สร้าง linked list ที่มี 3 โหนด แล้วจะสร้างอีกฟังก์ชันขึ้นมาเพื่อเข้าถึงข้อมูลโดยการแสดงข้อมูลแต่ละตัวออกมาบนจอ
+
+5. การลบข้อมูลออกจาก linked list (Deletion)
+    ตัวอย่าง 
+    void delete_nod(struct node **head_ref, int key) 
+
+6. การเพิ่มข้อมูลเข้าไปใน linked list (Insertion)
+    - เพิ่มโหนดเข้าไปใน list ทำได้หลายลักษณะ โดยพิจารณาจากตำแหน่งใน list ที่ต้องการเพิ่มโหนด
+
+7. Doubly Linked List
+    - linked list ที่ผ่านมาเรียกว่า Singly Linked List พิจารณาจากโหนดที่อยู่ติดกันเชื่อมต่อกันผ่านลิงก์เดียว //ไปได้อย่างเดียว
+    - โครงสร้างข้อมูล Doubly Linked List แต่ละโหนดที่อยู่ติดกันเชื่อมต่อกันด้วยลิงค์ 2 ลิงค์ ลิงก์อันหนึ่งใช้เชื่อมต่อไปยังโหนดถัดไป และอีกลิงก์ใช้เชื่อใไปยังโหนดก่อนหน้า //ไปกลับได้
+
+8. Circular Linked List
+    - Singly Circular Linked List
+        จุดท้ายสุดกลับมายังจุดเริ่มต้น
+    - Doubly Circular Linked List 
+        เหมือนกับ Doubly Linked List แต่จุดเริ่มต้นไปยังจุดสุดท้าย และจุดสุดท้ายมายังจุดเริ่มต้นได้
