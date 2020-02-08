@@ -1,0 +1,73 @@
+Functions and Program Structure
+
+1. Function Definition (การนิยามฟังก์ชัน)
+- รูปแบบการนิยามฟังก์ชัน
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+return-value-type function-name( parameter-list ) //Function header
+{
+   declarations
+
+   statement  //Function body
+   statement
+   :
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- คอมไพล์เลอร์ภาษา C เป็นคอมไพเลอร์ One-pass
+
+2. Function Prototypes
+- มีลักษณะเหมือน function header ของ function definition
+- Parameter-list สามารถละชื่อตัวแปรได้ แต่ไม่สามารถละประเภทข้อมูลได้
+
+3. Standard Library Functions and Math Library Functions
+- ฟังก์ชัน printf, scanf, getchar เป็นฟังก์ชันที่อยู่ใน Standard Library functions
+- ฟังก์ชัน sqrt, exp, log เป็นฟังก์ชันที่อยู่ใน Math Library functions
+- เวลาคอมไพล์โปรแกรม เราจำเป็นต้องคอมไพล์(link) (gcc ถูกติดตั้งไว้แล้วตอนเรารัน pacman -S gcc-libs)
+- หากเราต้องการใช้ฟังก์ชันใน Math Library เราต้อง #include <math.h>
+- ตัวอย่างฟังก์ชันใน Math Library ได้แก่ sin(), cos(), sqrt(), log(), pow(), exp(), floor(), ceil(), fmod()
+
+4. Return Values
+- ฟังก์ชันจะมีการส่งค่ากลับ return type เป็น void
+- ใช้ void เพื่อบอกคอมไพเลอร์ว่าฟังก์ชันนี้ไม่มีการส่งค่าใดๆ กลับไปยังผู้เรียก
+- ใช้คีย์เวิร์ด return เพื่อส่งกลับค่าข้อมูล
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+return 5;
+return (x > 5);
+return (myFunction()); 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- เมื่อทำงานจนถึงคำสั่ง return การทำงานจะกลับไปทำงานต่อจากจุดที่ฟังก์ชันถูกเรียกใช้
+
+5. Recursion (การเรียกซ้ำ)
+- สามารถเรียกใช้ตนเองได้ เรียกว่า recursion
+- เมื่อฟังก์ชันมีการเรียกใช้ตนเอง โปรแกรมจะสำเนาค่าตัวแปรต่างๆภายในฟังก์ชัน (เช่น ตัวแปร local) ขึ้นมาอีกชุด โดยเป็นอิสระจากการถูกเรียกในครั้งก่อนหน้า
+- ต.ย.
+  - Factorial ของเลขจำนวนเต็มบวก n ปกติเขียนอยู่ในรูป n! เป็นผลคูณของ n * (n-1) * (n-2) * ... * 1
+  - ทางคณิตศาสตร์ เรานิยาม
+    n! = n * (n-1)!
+ตัวอย่าง Fibonacci Series
+- 1, 1, 2, 3, 5, 8, 13, 21, 34 ...
+  // return 6 = 8
+  // return 9 = 34
+5.1 Local Variables 
+- ตัวแปรที่ถูกประกาศไว้ภายใน block, รวมถึงตัวแปรพารามิเตอร์ของฟังก์ชัน
+
+6. Function Call และ Stack Frames
+6.1 ส่วนประกอบหลักของ Stack Frames
+    stack frame       | return address |
+    หรือเรียกอีกอย่างว่า   |                |
+    activation record | ตัวแปร locals   |
+6.2 
+ต.ย.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+int foo(int x)
+{
+  if (x > 1)
+     return x % 8 + 10 * foo(x / 8);
+  else
+     return x;
+}
+int main()
+{
+  printf("%d\n", foo(88));
+  return 0;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
