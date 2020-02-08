@@ -1,0 +1,184 @@
+Types, Operators, and Expressions
+
+1. การใช้งานตัวแปร
+ภาษา C ไม่สามารถใช้งานได้จนกว่าจะมีการประกาสตัวแปร (declare) การประกาศตัวแปรทำได้โดยการระบุประเภทของตัวแปร แล้วตามด้วยชื่อตัวแปร เช่น int x;, float y;
+1.1 ชื่อตัวแปร (Variable Names)
+- ชื่อตัวแปรประกอบด้วยตัวอักขระและตัวเลข โดยที่ตัวอักษรตัวแรกของชื่อต้องเป็นอักขระ
+- เครื่องหมาย _ นับว่าเป็นอักขระ
+- การใช้ _ คั่นระหว่างคำชื่อในตัวแปรทำให้อ่านได้ง่าย
+- อักขระตัวพิมพ์ใหญ่และตัวพิมพ์เล็กเป็นอักขระที่แตกต่างกัน
+- เรามักใช้อักขระภาษาอังกฤษเป็นตัวพิมพ์ใหญ่ทั้งหมดกับการนิยามค่า symbolic constant
+- ห้ามใช้ชื่อตัวแปรซ้ำกับคีย์เวิร์ดในภาษา C เช่น if, else, int, float เป็นต้น
+1.2 การตั้งชื่อตัวแปร
+- การตั้งชื่อตัวแปรควรคำนึงถึงเรื่องของอ่านแล้วเข้าใจง่าย
+- รูปแบบตัวแปรที่มักใช้กัน
+  - snake_case, student_id, student_name
+  - คั่นแต่ละคำในตัวแปรด้วยเครื่องหมาย _ (underscore)
+  - CamelCase, StudentID, StudentName
+  - ตัวอักษรแรกของแต่ละคำเป็นอักขระพิมพ์ใหญ๋นอกนั้นเป็นพิมพ์เล็ก
+  - camelCase, studentID, StudentName
+  - บางครั้ง CamelCase มีการใช้งานตัวอักษรในคำแรกเป็นอักขระพิมพ์เล็ก หลังจากนั้นใช้หลักของ CamelCase ปกติ
+- ใช้หลักการตั้งชื่อตัวแปรในการตั้งชื่อฟังก์ชันได้
+
+2. ประเภทข้อมูลและขนาด (Data Types and Sizes)
+- ประเภทข้อมูลที่ใช้เก็บเลขจำนวนเต็ม
+  - char (ใช้หน่วยความจำ 1 ไบท์)
+  - int (ส่วนใหญ่ใช้หน่่วยความจำ 4 ไบท์ ทั้งนี้ขึ้นอยู่กับตัวคอมไพเลอร์ด้วย)
+- ประเภทข้อมูลที่ใช้เก็บเลขจำนวนจริง
+  - float (ใช้หน่วยตวามจำ 4 ไบท์)
+  - double (ใช้หน่วยความจำ 8 ไบท์)
+- คีย์เวิร์ด short ช่วยลดพื้นที่จัดเก็บให้กับตัวแปรจำนวนเต็ม ส่วนคีย์เวิร์ด long ช่วยเพิ่มพื้นที่จัดเก็บข้อมูล
+  - short int
+  - long int
+- คีย์เวิร์ด signed ใช้กำหนดประเภทตัวแปรจำนวนเต็มให้สามารถเก็บค่าที่มีเครื่องหมาย ส่วนคีย์เวิร์ด unsigned ใช้กำหนดประเภทตัวแปรจำนวนเต็มให้สามารถเก็บเฉพาะค่าบวก
+  - signed int (หากไม่ใส่คีย์เวิร์ด signed ก็ให้ผลเหมือนกัน)
+  - unsigned char (เก็บเฉพาะค่าบวก)
+- สามารถใข้ sizeof ซึ่งเป็น macro ในการตรวจสอบขนาดตัวแปรและประเภทข้อมูล
+- คีย์เวิร์ด void ใช้ในกรณีการนิยามฟังก์ชันที่ไม่มีการส่งค่ากลับไปยังผู้เรียก และใช้ในการกำหนดให้กับตัวแปรที่ไม่มีประเภทข้อมูล
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#include <stdio.h>
+int main()
+{
+    printf("sizeof(char) = %d\n", sizeof(char));    
+    printf("sizeof(int) = %d\n", sizeof(int));
+    printf("sizeof(float) = %d\n", sizeof(float));
+    printf("sizeof(double) = %d\n", sizeof(double));
+    printf("sizeof(short int) = %d\n", sizeof(short int));
+    printf("sizeof(long int) = %d\n", sizeof(long int));
+    printf("sizeof(unsigend char) = %d\n", sizeof(unsigned char)
+    printf("sizeof(unsigned int) = %d\n", sizeof(unsigned int))
+    printf("sizeof(unsigned short int) = %d\n", sizeof(unsigned short
+    printf("sizeof(void) = %d\n", sizeof(void));
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sizeof(char) = 1
+sizeof(int) = 4
+sizeof(float) = 4
+sizeof(double) = 8
+sizeof(short int) = 2
+sizeof(long int) = 8
+sizeof(unsigend char) = 1
+sizeof(unsigned int) = 4
+sizeof(unsigned short int) = 2
+sizeof(void) = 1
+
+3. ค่าคงที่ (Constants)
+ค่าคงที่จำนวนเต็ม //ไม่มีจุด
+- an integer constant, ต.ย. 1234
+- a long constant, ต.ย. 123456789l หรือ 123456789L
+- unsigned constants (ตัวเลขจำนวนเต็มตามด้วย u หรือ U)
+- unsigned long constants (ตัวเลขจำนวนเต็มตามด้วย ul หรือ UL)
+ค่าคงที่จำนวนจริง
+- floating-point constants เช่น 123.4 หรือ 1e-2 
+- double constants (ตามด้วย l หรือ L)
+ค่าคงที่ของเลขฐาน 2, ฐาน 8, และ ฐาน 16
+- 0 แล้วตามตัวเลขจำนวนเต็มจะบ่งบอกถึงเลขฐาน 8
+- 0x หรือ 0X บ่งบอกถึงเลขฐาน 16
+- 0b หรือ 0B บ่งบอกถึงเลขฐาน 2
+รูปแบบการพิมพ์ (print format) สำหรับเลขฐาน 8 และ ฐาน 16
+- ใช้ %o ในการพิมพ์เลขฐาน 8
+- ใช้ %x ในการพิมพ์เลขฐาน 16 (ใช้ %X หากต้องการให้ตัวอักษรA-Fเป็นตัวพิมพ์ใหญ่)
+ค่าคงที่ของตัวอักษร (Character Constant)
+- เขียนอยู่ในรูปอักขระตัวหนึ่งโดยถูกห้อมล้อมด้วยเครื่องหมายฝนทอง เช่น 'x', '0'
+- \n หมายถึง newline
+- '\0' เป็นอักขระตัวแรกในตาราง ASCII มีค่าเป็น 0 และถูกกำหนดให้เป็น null
+ค่าคงที่สตริง (String Constant)
+- เป็นกลุ่มของอักขระที่ห้อมล้อมด้วยเครื่องหมายฟันหนู เช่น "This is a sting constant."
+- "" เป็น empty string หรือสตริงเปล่า
+- null character '\0'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#include <stdio.h>
+int main()
+{
+printf("%d\n", '0' + 1);
+printf("%c\n", '0' + 1);
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+49
+1
+
+4. การประกาศตัวแปร (Variable Declarations)
+- ตามข้อกำหนดมาตรฐาน C89 หรือ ANSI การประกาศตัวแปรอาจจะต้องถูกกำหนดไว้ตอนส่วนต้นของ block เท่านั้น
+- เราสามารถประกาศตัวแปรให้เป็นค่าคงที่ที่ไม่สามรถเปลี่ยนค่าได้ตลอดการทำงานของโปรแกรม เช่น const int step = 20;
+- const สามารถใช้กับตัวแปรอาเรย์เพื่อไม่ให้ข้อมูลภายในอาเรย์ถูกเปลี่ยนได้ เช่น int countCharacters(const char[]);
+4.1 printf() and puts()
+- รูปแบบการพิมพ์ (format) ของ printf()
+  - %d หรือ %i print as decimal integer
+  - %6d print as decimal integer, at least 6 character wide
+  - %06d print as decimal integer, at least 6 character wide with 0 padding
+  - %f print as floating point
+  - %6f print as floating point, at least 6 character wide
+  - %.2f print as floating point, 2 characters after decimal point
+  - %6.2f print as floating point, at least 6 wide and 2 after decimal point
+- รูปแบบอื่นที่ใช้ในบางกรณี
+  - %o for เลขฐาน 8
+  - %x for เลขฐาน 16
+  - %c for 1 ตัว
+  - %s for character string
+  - %% for % itself. 
+4.2 Character
+- getchar() รับอักขระ 1 ตัวจาก stdin โดยส่งค่ากลับไปยังผู้เรียกใช้ฟังก์ชัน
+- putchar() ส่งอักขระ 1 ตัวออกไปยัง stdout
+
+5. Arithmetic Operators (ตัวดำเนินการทางคณิตศาสตร์)
+- +, -, *, /, %
+- % ไม่สามรถใช้กับตัวแปรประเภท float และ double ไม่สามารถใช้งานได้จนกว่าจะมีการประกาสตัวแปร
+- หาก operator มี precedence เท่ากัน จะพิจารณาจากซ้ายไปขวา
+
+6. Relational Operators และ Logical Operators
+- Relational Operators //ต้องการตัวถูกกระทำ 2 ตัว ค่าที่ออกจะเป็น T กับ F
+  - >
+  - >=
+  - <
+  - <=
+  - ==
+  - !=
+- Logical Operators
+  - &&
+  - ||
+  - !
+  //การตีความหรือประเมินค่าจะหยุดต่อเมื่อรู้ค่าความเป็นจริงหรือเท็จแน่ๆ 
+
+7. Type conversion
+- นำค่าข้อมูลประเภทต่างๆมาถูกใช้งานผ่าน operator ร่วมกัน คอมไพเลอร์จะมีการแปลงค่าข้อมูลให้เหมาะสม โดยจะแปลงจากประเภทข้อมูลที่ "narrow" ไปยัง "wider" เพื่อไม่ให้สูญเสียข้อมูล
+  ต.ย. i+f จะถูกแปลงเป็น f+f
+- char <---> integer
+- logic <---> number
+- นอกจากนี้ มักจะเห็นโค้ดที่ถูกเขียนในรูปของ if (!valid) แทนการเขียน if (valid == 0)
+
+8. Increment and Decrement Operators
+- n++
+- ++n
+- n--
+- --n
+- (i+j)++ is illegal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+int x = 10;
+int y = 20;
+printf("x++ = %d", x++); //10
+printf("y++ = %d", ++y); //21
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+9. Bitwise Operators
+- & (AND) ต.ย. 0b11110000 & 0b10101010 ---> 0b10100000
+  - n = n & 0177;
+- | (inclusive OR) ต.ย. 0b11110000 | 0b10101010 ---> 0b11111010
+- ^ (exclusive OR) ต.ย. 0b11110000 ^ 0b10101010 ---> 0b01011010
+- << (left shift) ต.ย. 0b11110000 << 2 ---> 0b11000000
+- >> (right shift) ต.ย. 0b11110000 >> 3 ---> 0b00011110
+- ~ (one's complement (unary)) ต.ย. ~ 0b11110000 ---> 0b00001111
+
+10. Assignment Operators
+- c = getchar() และ c = d = getchar()
+- i = i + 2 ==> i += 2
+- x = x op y ==> x op= y โดย op อยู๋ใน {+, -, *, /, %, <<, >>, &, |, ^}
+
+11. Conditional Expression
+- expr1 ? expr2 : expr3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if (a > b)
+  z = a;
+else 
+  z = b;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- printf("I bought %d book%s\n", n, n==1 ? "" : "s");
