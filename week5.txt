@@ -1,0 +1,67 @@
+Functions and Program Structure
+
+1. Scope Rules (ขอบเขตและช่วงชีวิตของตัวแปร)
+1.1 Local Variables
+- ตัวแปรที่ถูกประกาศไว้อยู่ภายใน block, ภายใต้ตัวฟังก์ชัน
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#include <stdio.h>
+float func_1(int param1, float param2) //func_1 มีตัวแปร local คือ param1, param2, result
+{
+    float result;
+    result = param1 * param2;
+    return result;
+}
+
+int main() // ในฟังก์ชัน main มีตัวแปร local คือ cnt และ sum
+{   int cnt;
+    int sum=0;
+    for (cnt=1; cnt <= 10; cnt++) {
+        sum += cnt;
+        printf("%2d) %d\n", cnt, sum);
+    }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.2 Global Variables
+- ตัวแปรที่ถูกประกาศไว้นอกฟังก์ชัน คือตัวแปร global สามารถเข้าถึงได้จากฟังก์ชันต่างๆ รวมถึงฟังก์ชัน main
+- หากตัวแปร local ชื่อซ้ำกับตัวแปร global ถ้าแก้ไขค่าใน local จะไม่มีผลกับต่อค่า global
+1.3 Storage Classes
+- นอกจากตัวแปรมี ชื่อ ประเภท และค่าข้อมูลได้แล้ว สามารถกำหนด storage class ให้ตัวแปรใน 4 ลักษณะ ผ่านการใช้ตีเวิร์ด aoto, register, extern, static ช่วยกำหนดช่วงชีวิตในการเก็บข้อมูลของตัวแปรนั้นใน memory ได้
+- storage class 4 ประเภท แบ่งออกได้เป็น 2 storage duration คือ
+    - automatic (auto, register บังคับให้ตัวแปรอยู่ในประเภท automatic)
+    - static (extern, static ถูกบังคับให้อยู่ใน static)
+- คีย์เวิร์ด auto ไม่จำเป็น มักจะไม่ค่อยเห็น auto ปรากฏในโค้ดโปรแกรมทั่วไป
+- คีย์เวิร์ด register แจ้งให้คอมไพเลอร์ได้ทราบว่า ต้องการเก็บค่าตัวแปรนี้ไว้ใน register เพื่อความเร็วในการเข้าถึงตัวแปร หากมี register เหลือ คอมไพเลอร์จะจัดสรร register ให้โปรแกรมได้ใช้งาน
+- extern และ static ถูกกำหนดขึ้นมาใน memory เมื่อโปรแกรมเริ่มทำงาน จะอยู่ใน memory จนกว่าโปรแกรมจะสิ้นสุดการทำงาน เมื่อโปรแกรมเริ่มต้นทำงานตัวแปรจะเริ่มเก็บค่าข้อมูลและเก็บต่อจนกว่าจะสิ้นสุดการทำงาน
+- ตัวแปร global และชื่อฟังกืชันเป็น extern โดย default
+- หากตัวแปร local ถูกประกาศโดยคีย์เวิร์ด static อยู่ภายในฟังก์ชัน ตัวแปรนั้นจะถูกเข้าถึงได้จากภายในฟังก์ชันเท่านั้น 
+1.4 Dynamic Storage duration
+- พื้นที่เก็บข้อมูลสำหรับ dynimic storage duration (ขึ้นอยู่กับmemory)
+
+2. Separate Compilation (การคอมไพล์แยกส่วน)
+- การนิยามฟังก์ชันและการเรียกใช้ไม่จำเป็นต้องถูกคอมไพล์ในเวลาเดียวกัน
+- วิธีการคอมไพล์
+    $ gcc -c main.c                     # คำสั่งนี้จะสร้าง main.o
+    $ gcc -c func.c                     # คำสั่งนี้จะสร้าง func.o
+    $ gcc main.o func.o -o main.exe     # คำสั่งนี้จะลิงก์ main.o และ func.o เข้าด้วยกัน
+
+3. การใช้ make
+- ไฟล์ Makefile จะบรรจุกฎต่างๆ (วิ่งหา makefile) ใช้สร้าง object file (อะไรก็ได้แต่ต้องกำหนดกฎ) หรือ executable file
+- การสร้างกฎ
+    target: dependency
+    -->tab-->คำสั่งในการสร้าง target
+    กฎ 1 อันประกอบด้วย 3 ส่วน
+
+4. การสร้าง Static Library
+    gcc -c func.c
+    ar cr libfunc.a func.o
+
+5. การสร้าง Shared (Dynamic) Library
+- Windows
+    gcc -shared -o libfunc.dll -Wl,--out-implib,libfunc.dll.a *.o
+- MacOSX
+    gcc -shared -o libfunc.dylib *.o
+
+6. Random Number Generator
+- rand() ใช้สร้างเลขสุ่มจำนวนเต็มที่อยู่ระหว่าง 0 และ RAND_MAX ซึ่ง RAND_MAX เป็นค่าคงที่ถูกกำหนดไว้ใน <stdlib.h>
+- เวลาเรียกใช้ rand() หลายๆครั้ง ค่าฟังก์ชันนี้ส่งกลับมาจะได้ตัวเลขจำนวนเต็มที่ต่างกัน
+- ชุดเลขสุ่มที่โปรแกรมได้จากฟังก์ชัน จะเป็นชุดเลขที่สุ่มเหมือนกัน แต่หากต้องการเลขสุ่มที่ต่างกัน ต้องเรียก srand() หนึ่งครั้ง
